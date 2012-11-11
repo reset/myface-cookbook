@@ -4,7 +4,7 @@ Welcome to MyFace!
 <?php
 $db_host = 'localhost';
 $db_user = 'root';
-$db_pwd = 'rootpass';
+$db_pwd = '<%= node['mysql']['server_root_password'] %>';
 
 $database = 'myface';
 $table = 'users';
