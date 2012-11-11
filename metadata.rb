@@ -1,4 +1,4 @@
-name             "myface-cookbook"
+name             "myface"
 maintainer       "Sean OMeara"
 maintainer_email "someara@opscode.com"
 license          "Apache2"
