@@ -2,10 +2,15 @@
 # Cookbook Name:: myface-cookbook
 # Recipe:: default
 #
-# Copyright (C) 2012 YOUR_NAME
+# Copyright (C) 2012 Opscode
+# :: Author Sean OMeara <someara@opscode.com>
 # 
-# All rights reserved - Do Not Redistribute
+# Apache2 license
 #
+
+######################
+# webserver section
+######################
 
 include_recipe "apache2"
 include_recipe "apache2::mod_php5"
@@ -38,5 +43,33 @@ apache_site "myface.conf" do
   enable true
 end
 
-# include_recipe "mysql::server"
+######################
+# database section
+######################
+
+
+include_recipe "mysql::server"
+include_recipe "mysql::ruby"
+
+#chef_gem "mysql"
+
+mysql_database 'myface' do
+  connection ({
+      :host => "localhost",
+      :username => 'root',
+      :password => node['mysql']['server_root_password']
+    })
+  action :create
+end
+
+cookbook_file "/tmp/myface-init.sql" do
+  source "myface-init.sql"
+  owner "root"
+  mode "644"
+end
+
+execute "initialize myface database" do
+  command "mysql -h localhost -u root -prootpass -D myface < /tmp/myface-init.sql"
+  not_if "mysql -h localhost -u root -prootpass -D myface -e 'describe users;'"
+end
 
