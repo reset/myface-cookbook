@@ -20,5 +20,24 @@ Vagrant::Config.run do |config|
       chef.run_list = [ "recipe[myface::default]" ]
     end
   end
-  
+
+  config.vm.define :myface_db do |myface_db|
+    myface_db.vm.host_name = "myface"
+    myface_db.vm.box = "opscode-centos-6.3"
+    myface_db.vm.network :hostonly, "33.33.33.11"
+    myface_db.ssh.max_tries = 40
+    myface_db.ssh.timeout   = 120
+    
+    config.vm.provision :chef_solo do |chef|
+      chef.json = {
+        :mysql => {
+          :server_root_password => 'rootpass',
+          :server_debian_password => 'debpass',
+          :server_repl_password => 'replpass'
+        }
+      }      
+      chef.run_list = [ "recipe[myface::default]" ]
+    end
+  end
+
 end
