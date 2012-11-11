@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: myface-cookbook
-# Recipe:: default
+# Recipe:: webserver
 #
 # Copyright 2008-2009, Opscode, Inc.
 # Author:: Sean OMeara <someara@opscode.com>
@@ -19,5 +19,33 @@
 # limitations under the License.
 #
 
-include_recipe "myface::webserver"
-include_recipe "myface::database"
+include_recipe "apache2"
+include_recipe "apache2::mod_php5"
+
+# disable default site
+apache_site "000-default" do
+  enable false
+end
+
+# create apache config
+template "#{node['apache']['dir']}/sites-available/myface.conf" do
+  source "apache2.conf.erb"
+  notifies :restart, 'service[apache2]'
+end
+
+# create document root
+directory  "/srv/apache/myface" do
+  action :create
+  recursive true
+end
+
+# write siteX
+template "/srv/apache/myface/index.php" do
+  source "index.php.erb"
+  mode "0644" # forget me to create debuging exercise
+end
+
+# enable myface
+apache_site "myface.conf" do
+  enable true
+end
