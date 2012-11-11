@@ -1,6 +1,6 @@
 Welcome to MyFace!
 
-<html><head><title>MySQL Table Viewer</title></head><body>
+<html><head><title>MyFace Users</title></head><body>
 <?php
 $db_host = 'localhost';
 $db_user = 'root';
@@ -23,7 +23,6 @@ if (!$result) {
 
 $fields_num = mysql_num_fields($result);
 
-echo "<h1>Table: {$table}</h1>";
 echo "<table border='1'><tr>";
 // printing table headers
 for($i=0; $i<$fields_num; $i++)

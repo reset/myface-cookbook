@@ -16,7 +16,7 @@ Vagrant::Config.run do |config|
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
 
-  config.vm.host_name = "myface-cookbook-berkshelf"
+  config.vm.host_name = "myface"
 
   config.vm.box = "opscode-centos-6.3"
   #config.vm.box = "Berkshelf-CentOS-6.3-x86_64-minimal"
@@ -56,9 +56,9 @@ Vagrant::Config.run do |config|
         :server_repl_password => 'replpass'
       }
     }
-
+          
     chef.run_list = [
-      "recipe[myface-cookbook::default]"
+      "recipe[myface::default]"
     ]
   end
 end
