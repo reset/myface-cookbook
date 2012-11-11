@@ -69,7 +69,7 @@ cookbook_file "/tmp/myface-init.sql" do
 end
 
 execute "initialize myface database" do
-  command "mysql -h localhost -u root -prootpass -D myface < /tmp/myface-init.sql"
-  not_if "mysql -h localhost -u root -prootpass -D myface -e 'describe users;'"
+  command "mysql -h localhost -u root -p#{node['mysql']['server_root_password']} -D myface < /tmp/myface-init.sql"
+  not_if "mysql -h localhost -u root -p#{node['mysql']['server_root_password']} -D myface -e 'describe users;'"
 end
 
