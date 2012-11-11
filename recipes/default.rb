@@ -50,6 +50,7 @@ end
 
 include_recipe "mysql::server"
 include_recipe "mysql::ruby"
+include_recipe "php::module_mysql"
 
 #chef_gem "mysql"
 

@@ -9,6 +9,7 @@ version          "0.2.1"
 depends "yum"
 depends "apache2"
 depends "database"
+depends "php"
 
 
 
